@@ -2,17 +2,14 @@ package com.amazon.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
+import com.amazon.utilities.BrowserInteractionUtility;
 
 /**
  * Page Object for Amazon Product Details Page
  */
 public class AmazonProductDetailsPage {
     private WebDriver driver;
-    private WebDriverWait wait;
+    private BrowserInteractionUtility browserInteraction;
 
     // Locators
     private By productTitle = By.id("productTitle");
@@ -24,23 +21,21 @@ public class AmazonProductDetailsPage {
 
     public AmazonProductDetailsPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.browserInteraction = new BrowserInteractionUtility(driver);
     }
 
     /**
      * Get product title
      */
     public String getProductTitle() {
-        WebElement titleElement = wait.until(ExpectedConditions.visibilityOfElementLocated(productTitle));
-        return titleElement.getText();
+        return browserInteraction.getText(productTitle);
     }
 
     /**
      * Add product to cart
      */
     public void addToCart() {
-        WebElement addBtn = wait.until(ExpectedConditions.elementToBeClickable(addToCartBtn));
-        addBtn.click();
+        browserInteraction.click(addToCartBtn);
     }
 
     /**
@@ -48,8 +43,8 @@ public class AmazonProductDetailsPage {
      */
     public void waitForCartConfirmation() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(cartPopup));
-            Thread.sleep(2000);
+            browserInteraction.waitForElementToBeVisible(cartPopup);
+            browserInteraction.waitForSeconds(2);
         } catch (Exception e) {
             System.out.println("Cart confirmation popup not found");
         }
@@ -59,9 +54,7 @@ public class AmazonProductDetailsPage {
      * Set product quantity
      */
     public void setQuantity(String qty) {
-        WebElement quantityElement = wait.until(ExpectedConditions.visibilityOfElementLocated(quantity));
-        quantityElement.clear();
-        quantityElement.sendKeys(qty);
+        browserInteraction.clearAndType(quantity, qty);
     }
 
     /**
@@ -69,8 +62,7 @@ public class AmazonProductDetailsPage {
      */
     public String getProductPrice() {
         try {
-            WebElement priceElement = wait.until(ExpectedConditions.visibilityOfElementLocated(priceTag));
-            return priceElement.getText();
+            return browserInteraction.getText(priceTag);
         } catch (Exception e) {
             return "Price not available";
         }
@@ -80,6 +72,6 @@ public class AmazonProductDetailsPage {
      * Check if add to cart button is displayed
      */
     public boolean isAddToCartButtonDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(addToCartBtn)).isDisplayed();
+        return browserInteraction.isElementDisplayed(addToCartBtn);
     }
 }

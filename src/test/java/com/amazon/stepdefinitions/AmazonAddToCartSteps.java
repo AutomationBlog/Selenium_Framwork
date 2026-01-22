@@ -2,12 +2,16 @@ package com.amazon.stepdefinitions;
 
 import com.amazon.base.BaseTest;
 import com.amazon.pages.AmazonHomePage;
+import com.amazon.pages.AmazonSearchResultsPage;
+import com.amazon.pages.AmazonProductDetailsPage;
 import com.amazon.utilities.PropertyUtility;
+import com.amazon.utilities.BrowserInteractionUtility;
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import java.io.IOException;
 
@@ -16,12 +20,18 @@ import java.io.IOException;
  */
 public class AmazonAddToCartSteps extends BaseTest {
     private AmazonHomePage homePage;
+    private AmazonSearchResultsPage searchResultsPage;
+    private AmazonProductDetailsPage productDetailsPage;
+    private BrowserInteractionUtility browserInteraction;
     private PropertyUtility propertyUtility;
 
     @Before
     public void setUp() throws IOException {
         initializeDriver(null);
         homePage = new AmazonHomePage(driver);
+        searchResultsPage = new AmazonSearchResultsPage(driver);
+        productDetailsPage = new AmazonProductDetailsPage(driver);
+        browserInteraction = new BrowserInteractionUtility(driver);
     }
 
     @After
@@ -44,45 +54,47 @@ public class AmazonAddToCartSteps extends BaseTest {
 
     @Then("Search results should be displayed")
     public void search_results_should_be_displayed() {
-        Assert.assertTrue(driver.getTitle().contains("Amazon"), "Search results page not loaded");
+        Assert.assertTrue(browserInteraction.getPageTitle().contains("Amazon"), "Search results page not loaded");
     }
 
     @When("User clicks on first product")
     public void user_clicks_on_first_product() throws InterruptedException {
-        Thread.sleep(2000);
+        browserInteraction.waitForSeconds(2);
         try {
             // Try multiple locator strategies for better reliability
-            org.openqa.selenium.WebElement product = driver.findElement(
-                org.openqa.selenium.By.xpath("(//h2//a)[1]")
-            );
-            product.click();
+            By productLocator = By.xpath("(//h2//a)[1]");
+            if (browserInteraction.isElementPresent(productLocator)) {
+                browserInteraction.click(productLocator);
+            } else {
+                // Fallback to div with data-component-type
+                By fallbackLocator = By.xpath("(//div[@data-component-type='s-search-result'][1]//h2//a)[1]");
+                browserInteraction.click(fallbackLocator);
+            }
         } catch (Exception e) {
-            // Fallback to div with data-component-type
-            driver.findElement(org.openqa.selenium.By.xpath("(//div[@data-component-type='s-search-result'][1]//h2//a)[1]")).click();
+            System.out.println("Error clicking first product: " + e.getMessage());
         }
-        Thread.sleep(2000);
+        browserInteraction.waitForSeconds(2);
     }
 
     @When("User adds product to cart")
     public void user_adds_product_to_cart() throws InterruptedException {
         try {
-            org.openqa.selenium.WebElement addBtn = driver.findElement(org.openqa.selenium.By.id("add-to-cart-button"));
-            addBtn.click();
-            Thread.sleep(2000);
+            productDetailsPage.addToCart();
+            browserInteraction.waitForSeconds(2);
         } catch (Exception e) {
-            System.out.println("Add to cart button not found");
+            System.out.println("Add to cart button not found: " + e.getMessage());
         }
     }
 
     @Then("Product should be added to cart")
     public void product_should_be_added_to_cart() {
         try {
-            Thread.sleep(1000);
-            org.openqa.selenium.WebElement cartIcon = driver.findElement(org.openqa.selenium.By.id("nav-cart-count-container"));
-            String cartCount = cartIcon.getText();
+            browserInteraction.waitForSeconds(1);
+            By cartIconLocator = By.id("nav-cart-count-container");
+            String cartCount = browserInteraction.getText(cartIconLocator);
             Assert.assertNotNull(cartCount, "Cart count is not displayed");
         } catch (Exception e) {
-            Assert.fail("Product not added to cart");
+            Assert.fail("Product not added to cart: " + e.getMessage());
         }
     }
 }

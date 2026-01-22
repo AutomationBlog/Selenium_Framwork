@@ -2,17 +2,14 @@ package com.amazon.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
+import com.amazon.utilities.BrowserInteractionUtility;
 
 /**
  * Page Object for Amazon Home Page
  */
 public class AmazonHomePage {
     private WebDriver driver;
-    private WebDriverWait wait;
+    private BrowserInteractionUtility browserInteraction;
 
     // Locators
     private By searchBox = By.id("twotabsearchtextbox");
@@ -21,37 +18,35 @@ public class AmazonHomePage {
 
     public AmazonHomePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.browserInteraction = new BrowserInteractionUtility(driver);
     }
 
     /**
      * Navigate to Amazon home page
      */
     public void navigateToAmazon(String url) {
-        driver.navigate().to(url);
+        browserInteraction.navigateTo(url);
     }
 
     /**
      * Search for product
      */
     public void searchProduct(String productName) {
-        WebElement searchElement = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBox));
-        searchElement.clear();
-        searchElement.sendKeys(productName);
-        driver.findElement(searchButton).click();
+        browserInteraction.clearAndType(searchBox, productName);
+        browserInteraction.click(searchButton);
     }
 
     /**
      * Get page title
      */
     public String getPageTitle() {
-        return driver.getTitle();
+        return browserInteraction.getPageTitle();
     }
 
     /**
      * Check if search box is displayed
      */
     public boolean isSearchBoxDisplayed() {
-        return driver.findElement(searchBox).isDisplayed();
+        return browserInteraction.isElementDisplayed(searchBox);
     }
 }
