@@ -11,6 +11,9 @@
 ### Need Code Examples?
 👉 **Check here:** [UTILITIES_REFERENCE.md](UTILITIES_REFERENCE.md) - Code examples for all utilities
 
+### Using BrowserInteractionUtility?
+👉 **Read this:** [BROWSER_INTERACTION_GUIDE.md](BROWSER_INTERACTION_GUIDE.md) - Complete browser interaction guide with examples
+
 ### Want Full Details?
 👉 **Read here:** [README.md](README.md) - Complete documentation
 
@@ -24,6 +27,7 @@
 | **EXECUTION_GUIDE.md** | Detailed execution instructions | 10 min |
 | **README.md** | Complete framework documentation | 20 min |
 | **UTILITIES_REFERENCE.md** | Code examples and quick reference | 15 min |
+| **BROWSER_INTERACTION_GUIDE.md** | BrowserInteractionUtility complete guide | 20 min |
 | **PROJECT_STRUCTURE.md** | Complete file structure overview | 10 min |
 | **SETUP_SUMMARY.md** | What was created and features | 10 min |
 | **INDEX.md** (this file) | Documentation navigation | 5 min |
@@ -37,10 +41,10 @@
 src/main/java/com/amazon/
 ├── base/           → WebDriver initialization & Reporting
 ├── pages/          → Page Object Models (3 classes)
-└── utilities/      → File handling utilities (4 classes)
+└── utilities/      → Browser interaction & File handling utilities (5 classes)
 
 src/test/java/com/amazon/
-├── stepdefinitions/ → Cucumber steps
+├── stepdefinitions/ → Cucumber steps (now using BrowserInteractionUtility)
 └── runners/         → TestNG & Cucumber runners
 
 src/test/resources/
@@ -131,7 +135,60 @@ TextFileUtility.appendToFile("log.txt", "new entry");
 
 ---
 
-## 📄 Page Objects Guide
+## �️ BrowserInteractionUtility Guide
+
+**Purpose:** Comprehensive browser interaction utility for all Selenium operations
+
+**Key Features:**
+- ✅ Click operations (click, double-click, right-click)
+- ✅ Text input (type, clear, type with delay)
+- ✅ Text retrieval (getText, getAttribute, getCssValue)
+- ✅ Dropdown operations (select by text/value/index)
+- ✅ Wait operations (for visible, clickable, presence, disappear)
+- ✅ Element checks (isDisplayed, isPresent, isEnabled)
+- ✅ Scrolling (to element, to top/bottom, by pixels)
+- ✅ Mouse operations (hover, drag-drop)
+- ✅ Keyboard operations (enter, tab, escape, select-all, copy, paste)
+- ✅ JavaScript execution
+- ✅ Alert handling
+- ✅ Window/Frame switching
+- ✅ Navigation (to, back, forward, refresh)
+- ✅ Cookie management
+
+**Basic Usage:**
+```java
+// Initialize
+BrowserInteractionUtility browserInteraction = new BrowserInteractionUtility(driver);
+
+// Click
+browserInteraction.click(By.id("button"));
+
+// Clear and type
+browserInteraction.clearAndType(By.id("search"), "laptop");
+
+// Get text
+String text = browserInteraction.getText(By.id("title"));
+
+// Wait for visible
+browserInteraction.waitForElementToBeVisible(By.id("content"));
+
+// Scroll to element
+browserInteraction.scrollToElement(By.id("section"));
+```
+
+**Benefits:**
+✨ Reduces code duplication
+✨ Built-in wait strategies
+✨ Better error handling
+✨ Easier to maintain
+✨ Improves test reliability
+
+👉 **Full Guide:** [BROWSER_INTERACTION_GUIDE.md](BROWSER_INTERACTION_GUIDE.md)
+👉 **Quick Reference:** [UTILITIES_REFERENCE.md](UTILITIES_REFERENCE.md#browserinteractionutility)
+
+---
+
+## �📄 Page Objects Guide
 
 ### AmazonHomePage
 **Purpose:** Amazon home page actions

@@ -1,5 +1,550 @@
 # Utility Classes Quick Reference
 
+## BrowserInteractionUtility
+
+Comprehensive utility class for common browser interactions, element manipulation, and Selenium operations.
+
+### Import
+```java
+import com.amazon.utilities.BrowserInteractionUtility;
+```
+
+### Initialization
+```java
+// Default 10-second timeout
+BrowserInteractionUtility browserInteraction = new BrowserInteractionUtility(driver);
+
+// Custom timeout
+BrowserInteractionUtility browserInteraction = new BrowserInteractionUtility(driver, 15);
+```
+
+### Click Operations
+
+#### Simple Click
+```java
+browserInteraction.click(By.id("buttonId"));
+```
+
+#### Click WebElement
+```java
+WebElement element = driver.findElement(By.id("element"));
+browserInteraction.click(element);
+```
+
+#### Double Click
+```java
+browserInteraction.doubleClick(By.id("element"));
+```
+
+#### Right Click
+```java
+browserInteraction.rightClick(By.id("element"));
+```
+
+---
+
+### Text Input Operations
+
+#### Clear and Type Text
+```java
+browserInteraction.clearAndType(By.id("searchBox"), "laptop");
+```
+
+#### Type Without Clearing
+```java
+browserInteraction.type(By.id("textField"), "additional text");
+```
+
+#### Type With Character Delay
+```java
+browserInteraction.typeWithDelay(By.id("passwordField"), "password123", 100); // 100ms delay
+```
+
+#### Clear Element
+```java
+browserInteraction.clearElement(By.id("textField"));
+```
+
+---
+
+### Text Retrieval Operations
+
+#### Get Element Text
+```java
+String text = browserInteraction.getText(By.id("heading"));
+```
+
+#### Get Text from WebElement
+```java
+WebElement element = driver.findElement(By.id("element"));
+String text = browserInteraction.getText(element);
+```
+
+#### Get Attribute Value
+```java
+String href = browserInteraction.getAttribute(By.xpath("//a"), "href");
+String placeholder = browserInteraction.getAttribute(By.id("input"), "placeholder");
+```
+
+#### Get CSS Value
+```java
+String color = browserInteraction.getCssValue(By.id("button"), "background-color");
+String fontSize = browserInteraction.getCssValue(By.id("text"), "font-size");
+```
+
+---
+
+### Dropdown/Select Operations
+
+#### Select by Visible Text
+```java
+browserInteraction.selectByVisibleText(By.id("dropdown"), "Option 1");
+```
+
+#### Select by Value
+```java
+browserInteraction.selectByValue(By.id("dropdown"), "value1");
+```
+
+#### Select by Index
+```java
+browserInteraction.selectByIndex(By.id("dropdown"), 0);
+```
+
+#### Get All Options
+```java
+List<String> options = browserInteraction.getDropdownOptions(By.id("dropdown"));
+for (String option : options) {
+    System.out.println(option);
+}
+```
+
+#### Get Selected Option
+```java
+String selected = browserInteraction.getSelectedOption(By.id("dropdown"));
+```
+
+---
+
+### Wait Operations
+
+#### Wait for Element Visible
+```java
+WebElement element = browserInteraction.waitForElementToBeVisible(By.id("element"));
+```
+
+#### Wait for Element Clickable
+```java
+WebElement element = browserInteraction.waitForElementToBeClickable(By.id("button"));
+```
+
+#### Wait for Element Present
+```java
+WebElement element = browserInteraction.waitForElementToBePresent(By.id("element"));
+```
+
+#### Wait for Element Invisible
+```java
+boolean result = browserInteraction.waitForElementToBeInvisible(By.id("loader"));
+```
+
+#### Wait for Element to Disappear
+```java
+boolean result = browserInteraction.waitForElementToDisappear(By.id("popup"), 15); // 15 seconds
+```
+
+#### Wait for Text in Element
+```java
+boolean result = browserInteraction.waitForTextInElement(By.id("message"), "Success");
+```
+
+#### Wait for Seconds
+```java
+browserInteraction.waitForSeconds(3);  // 3 seconds
+```
+
+---
+
+### Element Visibility & Presence Check
+
+#### Check if Element Displayed
+```java
+if (browserInteraction.isElementDisplayed(By.id("element"))) {
+    System.out.println("Element is visible");
+}
+```
+
+#### Check if Element Exists
+```java
+if (browserInteraction.isElementPresent(By.id("element"))) {
+    System.out.println("Element exists in DOM");
+}
+```
+
+#### Check if Element Enabled
+```java
+if (browserInteraction.isElementEnabled(By.id("button"))) {
+    System.out.println("Button is enabled");
+}
+```
+
+---
+
+### Scrolling Operations
+
+#### Scroll to Element
+```java
+browserInteraction.scrollToElement(By.id("element"));
+```
+
+#### Scroll to Element and Wait
+```java
+browserInteraction.scrollToElementAndWait(By.id("element"));
+```
+
+#### Scroll to Top
+```java
+browserInteraction.scrollToTop();
+```
+
+#### Scroll to Bottom
+```java
+browserInteraction.scrollToBottom();
+```
+
+#### Scroll by Pixels
+```java
+browserInteraction.scrollByPixels(500);  // Scroll down 500 pixels
+browserInteraction.scrollByPixels(-300); // Scroll up 300 pixels
+```
+
+---
+
+### Mouse Operations
+
+#### Hover Over Element
+```java
+browserInteraction.hoverOverElement(By.id("menuItem"));
+```
+
+#### Drag and Drop
+```java
+browserInteraction.dragAndDrop(By.id("source"), By.id("target"));
+```
+
+#### Drag Element by Offset
+```java
+browserInteraction.dragElementByOffset(By.id("element"), 100, 50); // x: 100, y: 50
+```
+
+---
+
+### Keyboard Operations
+
+#### Press Enter
+```java
+browserInteraction.pressEnter(By.id("searchBox"));
+```
+
+#### Press Tab
+```java
+browserInteraction.pressTab();
+```
+
+#### Press Escape
+```java
+browserInteraction.pressEscape();
+```
+
+#### Select All (Ctrl+A)
+```java
+browserInteraction.selectAll();
+```
+
+#### Copy (Ctrl+C)
+```java
+browserInteraction.copy();
+```
+
+#### Paste (Ctrl+V)
+```java
+browserInteraction.paste();
+```
+
+---
+
+### JavaScript Operations
+
+#### Execute JavaScript
+```java
+browserInteraction.executeScript("window.scrollTo(0, 0);");
+```
+
+#### Execute JavaScript with Arguments
+```java
+Object result = browserInteraction.executeScript("return arguments[0].text;", element);
+```
+
+#### Execute Async JavaScript
+```java
+browserInteraction.executeAsyncScript("var callback = arguments[0]; setTimeout(callback, 2000);");
+```
+
+#### Get Page Title via JS
+```java
+String title = browserInteraction.getPageTitleViaJS();
+```
+
+#### Get Page URL via JS
+```java
+String url = browserInteraction.getPageURLViaJS();
+```
+
+#### Highlight Element (Debugging)
+```java
+browserInteraction.highlightElement(By.id("element"));
+// Code...
+browserInteraction.unhighlightElement(By.id("element"));
+```
+
+---
+
+### Alert Operations
+
+#### Accept Alert
+```java
+browserInteraction.acceptAlert();
+```
+
+#### Dismiss Alert
+```java
+browserInteraction.dismissAlert();
+```
+
+#### Get Alert Text
+```java
+String alertText = browserInteraction.getAlertText();
+```
+
+#### Type in Alert
+```java
+browserInteraction.typeInAlert("text");
+browserInteraction.acceptAlert();
+```
+
+---
+
+### Window/Tab Operations
+
+#### Get Current Window Handle
+```java
+String windowHandle = browserInteraction.getCurrentWindowHandle();
+```
+
+#### Get All Window Handles
+```java
+Set<String> handles = browserInteraction.getAllWindowHandles();
+```
+
+#### Switch to Window by Index
+```java
+browserInteraction.switchToWindowByIndex(1);  // Switch to second window
+```
+
+#### Switch to Window by Title
+```java
+browserInteraction.switchToWindowByTitle("Google");
+```
+
+#### Switch to Frame
+```java
+browserInteraction.switchToFrame(By.id("iframeId"));
+```
+
+#### Switch to Frame by Index
+```java
+browserInteraction.switchToFrame(0);
+```
+
+#### Switch to Parent Frame
+```java
+browserInteraction.switchToParentFrame();
+```
+
+#### Switch to Default Content
+```java
+browserInteraction.switchToDefaultContent();
+```
+
+---
+
+### Find Elements Operations
+
+#### Find Single Element
+```java
+WebElement element = browserInteraction.findElement(By.id("element"));
+```
+
+#### Find Multiple Elements
+```java
+List<WebElement> elements = browserInteraction.findElements(By.className("item"));
+```
+
+#### Get Element Count
+```java
+int count = browserInteraction.getElementCount(By.className("item"));
+```
+
+---
+
+### Navigation Operations
+
+#### Navigate to URL
+```java
+browserInteraction.navigateTo("https://www.amazon.com");
+```
+
+#### Navigate Back
+```java
+browserInteraction.navigateBack();
+```
+
+#### Navigate Forward
+```java
+browserInteraction.navigateForward();
+```
+
+#### Refresh Page
+```java
+browserInteraction.refreshPage();
+```
+
+#### Get Current URL
+```java
+String url = browserInteraction.getCurrentURL();
+```
+
+#### Get Page Title
+```java
+String title = browserInteraction.getPageTitle();
+```
+
+---
+
+### Cookie Operations
+
+#### Add Cookie
+```java
+browserInteraction.addCookie("sessionId", "12345");
+```
+
+#### Get Cookie
+```java
+Cookie cookie = browserInteraction.getCookie("sessionId");
+```
+
+#### Delete Cookie
+```java
+browserInteraction.deleteCookie("sessionId");
+```
+
+#### Delete All Cookies
+```java
+browserInteraction.deleteAllCookies();
+```
+
+---
+
+## Complete Page Object Example with BrowserInteractionUtility
+
+```java
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.amazon.utilities.BrowserInteractionUtility;
+
+public class LoginPage {
+    private WebDriver driver;
+    private BrowserInteractionUtility browserInteraction;
+    
+    // Locators
+    private By usernameField = By.id("username");
+    private By passwordField = By.id("password");
+    private By loginButton = By.id("loginBtn");
+    private By errorMessage = By.className("error");
+    
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        this.browserInteraction = new BrowserInteractionUtility(driver);
+    }
+    
+    public void login(String username, String password) {
+        browserInteraction.clearAndType(usernameField, username);
+        browserInteraction.clearAndType(passwordField, password);
+        browserInteraction.click(loginButton);
+        browserInteraction.waitForSeconds(2);
+    }
+    
+    public String getErrorMessage() {
+        return browserInteraction.getText(errorMessage);
+    }
+    
+    public boolean isLoginButtonDisplayed() {
+        return browserInteraction.isElementDisplayed(loginButton);
+    }
+    
+    public void navigateToLoginPage(String url) {
+        browserInteraction.navigateTo(url);
+        browserInteraction.waitForElementToBeVisible(usernameField);
+    }
+}
+```
+
+---
+
+## Complete Step Definition Example
+
+```java
+import com.amazon.utilities.BrowserInteractionUtility;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class LoginSteps {
+    private WebDriver driver;
+    private BrowserInteractionUtility browserInteraction;
+    private LoginPage loginPage;
+    
+    @Before
+    public void setUp() {
+        driver = new ChromeDriver();
+        browserInteraction = new BrowserInteractionUtility(driver);
+        loginPage = new LoginPage(driver);
+    }
+    
+    @Given("User is on login page")
+    public void userOnLoginPage() {
+        loginPage.navigateToLoginPage("https://example.com/login");
+    }
+    
+    @When("User enters {string} and {string}")
+    public void userEntersCredentials(String username, String password) {
+        loginPage.login(username, password);
+    }
+    
+    @Then("User should see error message")
+    public void verifiesErrorMessage() {
+        String errorMsg = loginPage.getErrorMessage();
+        Assert.assertEquals(errorMsg, "Invalid credentials");
+    }
+    
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+}
+```
+
+---
+
 ## ExcelUtility
 
 ### Import

@@ -8,7 +8,8 @@ A comprehensive Maven-based Selenium automation framework built with Java, Cucum
 ✅ **Cucumber BDD** - Behavior-driven development scenarios
 ✅ **TestNG** - Unit testing framework with reporting
 ✅ **Spark Reporting** - Beautiful HTML test reports
-✅ **Utility Classes** - Handle Excel, JSON, Property files, and Text files
+✅ **Utility Classes** - Handle Excel, JSON, Property files, Text files, and Browser Interactions
+✅ **BrowserInteractionUtility** - Comprehensive browser interaction methods
 ✅ **Page Object Model** - Maintainable and scalable test structure
 ✅ **WebDriverManager** - Automatic WebDriver management
 
@@ -27,6 +28,7 @@ SeleniumFramework/
 │   │       │   ├── AmazonSearchResultsPage.java
 │   │       │   └── AmazonProductDetailsPage.java
 │   │       └── utilities/
+│   │           ├── BrowserInteractionUtility.java # Browser interaction methods
 │   │           ├── ExcelUtility.java          # Excel file handling
 │   │           ├── JsonUtility.java           # JSON file handling
 │   │           ├── PropertyUtility.java       # Properties file handling
@@ -192,6 +194,17 @@ logLevel=INFO
 ```
 
 ## Utility Classes
+
+### BrowserInteractionUtility
+```java
+BrowserInteractionUtility browserInteraction = new BrowserInteractionUtility(driver);
+browserInteraction.click(By.id("element"));
+browserInteraction.clearAndType(By.id("searchBox"), "search text");
+browserInteraction.getText(By.id("element"));
+browserInteraction.waitForElementToBeVisible(By.id("element"));
+browserInteraction.scrollToElement(By.id("element"));
+browserInteraction.hoverOverElement(By.id("element"));
+```
 
 ### ExcelUtility
 ```java
