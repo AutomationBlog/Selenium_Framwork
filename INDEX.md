@@ -14,6 +14,9 @@
 ### Using BrowserInteractionUtility?
 👉 **Read this:** [BROWSER_INTERACTION_GUIDE.md](BROWSER_INTERACTION_GUIDE.md) - Complete browser interaction guide with examples
 
+### Understanding Cucumber Hooks?
+👉 **Read this:** [CUCUMBER_HOOKS_GUIDE.md](CUCUMBER_HOOKS_GUIDE.md) - Test lifecycle management and hook examples
+
 ### Want Full Details?
 👉 **Read here:** [README.md](README.md) - Complete documentation
 
@@ -28,6 +31,7 @@
 | **README.md** | Complete framework documentation | 20 min |
 | **UTILITIES_REFERENCE.md** | Code examples and quick reference | 15 min |
 | **BROWSER_INTERACTION_GUIDE.md** | BrowserInteractionUtility complete guide | 20 min |
+| **CUCUMBER_HOOKS_GUIDE.md** | Cucumber hooks lifecycle management guide | 15 min |
 | **PROJECT_STRUCTURE.md** | Complete file structure overview | 10 min |
 | **SETUP_SUMMARY.md** | What was created and features | 10 min |
 | **INDEX.md** (this file) | Documentation navigation | 5 min |
@@ -44,7 +48,9 @@ src/main/java/com/amazon/
 └── utilities/      → Browser interaction & File handling utilities (5 classes)
 
 src/test/java/com/amazon/
-├── stepdefinitions/ → Cucumber steps (now using BrowserInteractionUtility)
+├── stepdefinitions/ → Cucumber hooks & step definitions
+│   ├── Hooks.java  → Test lifecycle management (@Before/@After/@BeforeStep/@AfterStep)
+│   └── AmazonAddToCartSteps.java → BDD step definitions
 └── runners/         → TestNG & Cucumber runners
 
 src/test/resources/
@@ -187,7 +193,65 @@ browserInteraction.scrollToElement(By.id("section"));
 👉 **Quick Reference:** [UTILITIES_REFERENCE.md](UTILITIES_REFERENCE.md#browserinteractionutility)
 
 ---
+## 🎣 Cucumber Hooks Guide
 
+**Purpose:** Manage test lifecycle with automatic setup, teardown, logging, and screenshot capture
+
+**Hook Types:**
+- **@Before** - Executes before each scenario (WebDriver init, report setup)
+- **@BeforeStep** - Executes before each step (step logging)
+- **@AfterStep** - Executes after each step (failure screenshot)
+- **@After** - Executes after each scenario (cleanup, final screenshot, report)
+
+**Key Features:**
+✅ Automatic WebDriver initialization and cleanup
+✅ Extent Report integration with screenshots
+✅ Automatic screenshot capture on test failure
+✅ Step-level logging to console and report
+✅ Scenario status tracking
+✅ Cookie cleanup and resource management
+✅ Time-stamped logging for debugging
+
+**Basic Example:**
+```java
+@Before
+public void setUp(Scenario scenario) {
+    System.out.println("Starting: " + scenario.getName());
+    initializeWebDriver();
+    ExtentReportBase.initializeExtentReport();
+    ExtentReportBase.createTest(scenario.getName(), "Test");
+}
+
+@After
+public void tearDown(Scenario scenario) {
+    if (driver != null) {
+        driver.quit();
+    }
+    ExtentReportBase.flushReport();
+}
+```
+
+**Hook Lifecycle in Tests:**
+```
+@Before Hook (setUp)
+    ↓
+@BeforeStep Hook
+    ↓
+Step Execution
+    ↓
+@AfterStep Hook (screenshot on failure)
+    ↓
+[Repeat for each step]
+    ↓
+@After Hook (tearDown - cleanup, final screenshot)
+```
+
+**Implementation Location:** `src/test/java/com/amazon/stepdefinitions/Hooks.java`
+
+👉 **Full Guide:** [CUCUMBER_HOOKS_GUIDE.md](CUCUMBER_HOOKS_GUIDE.md)
+👉 **Quick Reference:** [README.md](README.md#cucumber-hooks)
+
+---
 ## �📄 Page Objects Guide
 
 ### AmazonHomePage

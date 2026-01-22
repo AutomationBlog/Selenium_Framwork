@@ -9,9 +9,11 @@ A comprehensive Maven-based Selenium automation framework built with Java, Cucum
 ✅ **TestNG** - Unit testing framework with reporting
 ✅ **Spark Reporting** - Beautiful HTML test reports
 ✅ **Utility Classes** - Handle Excel, JSON, Property files, Text files, and Browser Interactions
-✅ **BrowserInteractionUtility** - Comprehensive browser interaction methods
+✅ **BrowserInteractionUtility** - Comprehensive browser interaction methods (68+ methods)
+✅ **Cucumber Hooks** - Test lifecycle management (setup/teardown, screenshots, logging)
 ✅ **Page Object Model** - Maintainable and scalable test structure
 ✅ **WebDriverManager** - Automatic WebDriver management
+✅ **Extent Reports** - Spark HTML reports with screenshots and logging
 
 ## Project Structure
 
@@ -36,6 +38,7 @@ SeleniumFramework/
 │   └── test/
 │       ├── java/com/amazon/
 │       │   ├── stepdefinitions/
+│       │   │   ├── Hooks.java                 # Cucumber hooks (lifecycle management)
 │       │   │   └── AmazonAddToCartSteps.java  # Cucumber step definitions
 │       │   └── runners/
 │       │       ├── CucumberRunnerTest.java    # Cucumber test runner
@@ -194,6 +197,33 @@ logLevel=INFO
 ```
 
 ## Utility Classes
+
+### Cucumber Hooks
+Cucumber Hooks manage the test lifecycle with automatic setup/teardown, logging, and screenshot capture:
+
+```java
+@Before        // Executes before each scenario
+public void setUp(Scenario scenario)
+
+@BeforeStep    // Executes before each step
+public void beforeStep(Scenario scenario)
+
+@AfterStep     // Executes after each step (captures screenshots on failure)
+public void afterStep(Scenario scenario)
+
+@After         // Executes after each scenario (cleanup, final screenshot, report)
+public void tearDown(Scenario scenario)
+```
+
+**Features:**
+- Automatic WebDriver initialization and cleanup
+- Extent Report integration with screenshots
+- Step-level logging to both console and report
+- Screenshot capture on step failure
+- Cookie cleanup and browser closure
+- Scenario status tracking
+
+For detailed documentation, see [CUCUMBER_HOOKS_GUIDE.md](CUCUMBER_HOOKS_GUIDE.md)
 
 ### BrowserInteractionUtility
 ```java
