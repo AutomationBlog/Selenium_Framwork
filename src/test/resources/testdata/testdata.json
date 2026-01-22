@@ -1,0 +1,17 @@
+[
+  {
+    "productName": "laptop",
+    "quantity": 1,
+    "category": "Electronics"
+  },
+  {
+    "productName": "mobile phone",
+    "quantity": 1,
+    "category": "Electronics"
+  },
+  {
+    "productName": "headphones",
+    "quantity": 2,
+    "category": "Electronics"
+  }
+]

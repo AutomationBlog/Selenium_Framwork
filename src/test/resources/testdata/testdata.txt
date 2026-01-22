@@ -1,0 +1,20 @@
+Test Data Log
+==============
+
+Test Run Date: 2026-01-22
+
+Products to be tested:
+1. Laptop
+2. Mobile Phone
+3. Headphones
+
+Expected Results:
+- All products should be added to cart successfully
+- Cart counter should reflect the number of items added
+- Product details should be displayed correctly
+- Add to cart button should be functional
+
+Test Environment:
+- OS: Windows 11
+- Browser: Chrome
+- Resolution: 1920x1080

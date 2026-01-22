@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Amazon Automation Suite" verbose="2" thread-count="1">
+    <!-- <test name="Amazon Add to Cart Tests">
+        <classes>
+            <class name="com.amazon.runners.AmazonAddToCartTestNGRunner">
+                <methods>
+                    <include name="testAddLaptopToCart"/>
+                    <include name="testAddMobilePhoneToCart"/>
+                    <include name="testAddHeadphonesToCartWithQuantity"/>
+                </methods>
+            </class>
+        </classes>
+    </test> -->
+
+    <test name="Cucumber Tests">
+        <classes>
+            <class name="com.amazon.runners.CucumberRunnerTest"/>
+        </classes>
+    </test>
+</suite>
