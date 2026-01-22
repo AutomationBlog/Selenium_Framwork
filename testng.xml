@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Amazon Automation Suite" verbose="2" thread-count="1">
-    <!-- <test name="Amazon Add to Cart Tests">
+    <test name="Amazon Add to Cart Tests">
         <classes>
             <class name="com.amazon.runners.AmazonAddToCartTestNGRunner">
                 <methods>
@@ -12,7 +12,7 @@
                 </methods>
             </class>
         </classes>
-    </test> -->
+    </test>
 
     <test name="Cucumber Tests">
         <classes>
